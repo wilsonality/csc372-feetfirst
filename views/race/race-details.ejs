@@ -1,0 +1,28 @@
+<%- include('./partials/head') %>
+  <script src="/script.js" defer></script>
+  </head>
+
+  <body>
+    <%- include('./partials/nav') %>
+      <button id="new-prod-btn">Add New Product</button>
+      <%- include('./partials/new-prod-form') %>
+        <h1> Product #<%=prod.id %>
+        </h1>
+        <div id="root">
+          <div class="card-holder">
+            <h3>
+              <%= prod.name %>
+            </h3>
+            <p>Type: <%=prod.type %>
+            </p>
+            <p>Price: <%=prod.price %>
+            </p>
+            <p>Description: <%=prod.description %>
+            </p>
+            <button class="delete-prod" id="<%= prod.id %>">Delete Product</button>
+          </div>
+          <h2><a href="/products">Products List</a></h2>
+        </div>
+  </body>
+
+  </html>

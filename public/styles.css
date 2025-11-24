@@ -1,0 +1,141 @@
+/* colors */
+
+:root{
+  --clr-lipstick: #C55A83;
+  --clr-denim: #283B58;
+  --clr-pink-paper: #F4E1E8;
+  --clr-blush-pape: #EDC5C0;
+  --clr-spruce-leaf: #1E5431;
+  --clr-cherry: #A61C3C;
+  --clr-aqua: #91CAC5;
+  --clr-dark-ink: #131C2A;
+  --clr-robin-egg: #A5CFE3;
+
+}
+
+/* formatting below */
+
+body{
+  font-family: "Open Sans", sans-serif;
+  background-color: var(--clr-blush-pape);
+  padding: 0px;
+  margin: 0px;
+  color: var(--clr-dark-ink);
+}
+
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+li {
+  float: left;
+}
+
+/* nav bar */
+
+nav{
+  background-color: var(--clr-lipstick);
+  border-radius: 0px 20px 20px 0px;
+  margin-top: 0.75em;
+  width: 300px;
+
+  transition: width ease-in 0.5s;
+}
+
+nav:hover{
+  width: 60%;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 1em;
+  text-decoration: none;
+  transition: all linear 0.5s;
+}
+
+li a:hover:not(.active) {
+  background-color: var(--clr-cherry);
+}
+
+/* main content */
+
+main{
+  padding: 2em;
+}
+
+/* profile details */
+
+.profile{
+
+  .profile-photo{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px var(--clr-dark-ink) solid;
+  }
+}
+
+/* forms */
+
+form{
+  max-width: 400px;
+  padding: 0em 0.5em;
+  input{
+    display: block;
+    padding: 0.5em;
+  }
+
+  button{
+    padding: 0.75em 2em;
+    margin: 2em 0em;
+    background-color: var(--clr-lipstick);
+    border: var(--clr-cherry) 1px solid;
+    border-radius: 1em;
+  }
+}
+
+/* fonts */
+
+
+.open-sans {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+
+.open-sans-bold {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 750;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+
+/* previous styling */
+
+.items-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.item {
+  flex: 0 0 200px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.3);
+}

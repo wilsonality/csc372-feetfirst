@@ -1,0 +1,16 @@
+<%- include('../partials/head') %>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <%- include ('../partials/nav') %>
+    <main>
+        <h2>View All Users on Feet First</h2>
+        <ul class="user-list">
+            <% users.forEach((user) => {%>
+            <h2>User: <%= user.username %></h2>
+            <p> <%= user.bio%> </p>
+            <% }) %>
+        </ul>
+    </main>
+</body>
+</html>

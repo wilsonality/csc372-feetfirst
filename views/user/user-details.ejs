@@ -1,0 +1,23 @@
+<%- include('../partials/head') %>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <%- include ('../partials/nav') %>
+    <main>
+        <h2>View Profile of <%= user.username %></h2>
+        <!-- list user details -->
+         <section class="profile">
+            <% if (user.profileimage) { %>
+                <img src="<%=user.profileimage%>" class="profile-photo" alt="<%=user.username%>'s picture">
+            <% } %>
+            <p><%=user.bio %></p>
+            <% if (user.favdist) { %>
+                <p>Favorite Distance: <%=user.favdist%></p>
+            <% } %>
+         </section>
+         <a href="<%=user.id%>/update">
+            <button>Edit Profile</button>
+         </a>
+    </main>
+</body>
+</html>

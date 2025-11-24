@@ -1,0 +1,37 @@
+
+<% var title = "Register An Account"; %>
+<%- include('../partials/head') %>
+<%- include('../partials/fonts') %>
+  </head>
+<body>
+  <nav>
+    <%- include('../partials/nav') %>
+  </nav>
+  <main>
+    <div class="page-header">
+      <h2>Register for Feet First</h2>
+      <p>Enter details to create an account on Feet First</p>
+    </div>
+
+    <div class="form-box">
+      <form action="/users" method="post" enctype="multipart/form-data">
+        
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username">
+        <br>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password1">
+        <br>
+        <label for="password">Confirm Password</label>
+        <input type="password" name="password-confirm" id="password2">
+
+        <label for="profileImage">Upload a Profile Photo</label>
+        <input type="file" name="profileImage" id="profileImage">
+
+        <button type="submit" id="submit-btn">Register Account</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="/form.js"></script>
+</body>

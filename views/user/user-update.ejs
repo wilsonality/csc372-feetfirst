@@ -1,0 +1,45 @@
+<%- include('../partials/head') %>
+<%- include('../partials/fonts') %>
+  </head>
+<body>
+  <nav>
+    <%- include('../partials/nav') %>
+  </nav>
+  <main>
+    <div class="page-header">
+      <h2>Update Your Profile</h2>
+    </div>
+
+    <div class="form-box">
+      <form action="/users/<%=user.id%>" method="post" enctype="multipart/form-data">
+        
+        <label for="username">Change Username</label>
+        <input type="text" name="username" id="username">
+        <br>
+        <label for="password">Change Password</label>
+        <input type="password" name="password" id="password1">
+        <br>
+        <label for="password">Confirm New Password</label>
+        <input type="password" name="password-confirm" id="password2">
+
+        <label for="favDist">Select a Favorite Distance</label>
+        <select name="favdist" id="favdist">
+            <option value="marathon">Marathon</option>
+            <option value="half-marathon">Half-Marathon</option>
+            <option value="10km">10km</option>
+            <option value="5km">5km</option>
+            <option value="10k">10km</option>
+            <option value="fun-run" selected>Fun-Run</option>
+            <option value="ultramarathon">Ultramarathon</option>
+        </select>
+
+        <label for="profileImage">Change Profile Photo</label>
+        <input type="file" name="profileImage" id="profileImage">
+
+        <button type="submit" id="submit-btn">Save Changes</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="/form.js"></script>
+</body>
