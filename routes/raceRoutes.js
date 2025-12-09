@@ -32,9 +32,16 @@ router.get("/id/:id", raceController.fetchRaceById);
 router.get("/id/:id/update", raceController.updateForm);
 
 // update a race
-router.post("/id/:id", raceController.updateRace);
+router.post("/id/:id", upload.single('raceimage'), raceController.updateRace);
 
 // delete a race
-router.get("/:id/delete", raceController.deleteRace);
+router.delete("/id/:id/delete", raceController.deleteRace);
+
+// check participation
+router.put("/:id/check", raceController.APIcheckParticipant);
+
+router.put("/:id/add-rsvp", raceController.APIaddParticipant);
+
+router.put("/:id/remove-rsvp", raceController.APIremoveParticipant);
 
 module.exports = router;

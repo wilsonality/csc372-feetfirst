@@ -1,12 +1,12 @@
+"use strict";
+const { title } = require('process');
+const raceModel = require('../models/raceModel');
+const userModel = require('../models/userModel');
+
 async function home(req, res) {
-    if (req.session && req.session.user){
-        // if user logged in, show them their home
-        res.render("home", {title: "Home"});
-    }
-    else{
-        // if user not logged in, show them the home page
-        res.render("home", {title: "Home"});
-    }
+    const races = await raceModel.getAllRaces();
+
+    res.render("home", {title: "Home", races: races});
 }
 
 async function loginPage(req, res){

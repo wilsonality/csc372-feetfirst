@@ -29,5 +29,6 @@ section.race-preview{
 
     li{
         border: 2px solid var(--clr-dark-ink);
+        
     }
 }

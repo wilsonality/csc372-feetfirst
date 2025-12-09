@@ -13,6 +13,7 @@
 
 main.race-details{
     display: flex;
+    gap: 2em;
 
     section{
         padding: 2em;
@@ -20,23 +21,14 @@ main.race-details{
 }
 
 section.race-left{
-    width: 45%;
+    width: 40%;
     padding-top: 10em;
-    h1{
-        font-size: 32pt;
-    }
 }
 
 section.race-right{
     background-color: var(--clr-pink-paper);
     border: var(--clr-denim) 3px solid;
-    width: 55%;
-}
-
-.author-preview{
-    display: flex;
-    gap: 2em;
-    align-items: center;
+    width: 60%;
 }
 
 .author-card{
@@ -46,9 +38,50 @@ section.race-right{
     border-radius: 2em;
     padding: 2em;
     background-color: var(--clr-robin-egg);
+    transition: 0.5s ease;
+}
+
+.author-card:hover{
+    background-color: var(--clr-pink-paper);
 }
 
 .race-photo{
     max-height: 400px;
     border-radius: 1em;
+}
+
+
+ul.races{
+  display: flex;
+  gap: 3em;
+  flex-wrap: wrap;
+}
+
+
+mark{
+    background-color: var(--clr-denim);
+    color: var(--clr-pink-paper);
+    padding: 0.5em 1em;
+}
+
+ul.races li{
+    border: var(--clr-dark-ink) 2px solid;
+    border-radius: 1em;
+    background-color: var(--clr-denim);
+    width: 350px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+img.race-preview{
+    max-height: 200px;
+    width: 200px;
+    object-fit: cover;
+}
+
+.participants{
+    margin-top: 2em;
 }

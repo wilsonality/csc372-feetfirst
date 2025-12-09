@@ -1,13 +1,13 @@
 <%- include('../partials/head') %>
-  <script src="/script.js" defer></script>
+  <script src="/rsvp.js" defer></script>
   </head>
 
   <body>
     <%- include('../partials/nav') %>
-    <main class="race-details">
-      <section class="race-left">
+    <main class="race-details" data-race-id="<%= race.id %>">
+      <section class="race-left center">
         <h1><%= race.title %></h1>
-        <button class="center">RSVP</button>
+        <button class="center" id="rsvp-btn">RSVP</button>
         <% if (author && author.profileimage) { %>
           <div class="author-preview">
             <p class="center bold">Meet the Host</p>
@@ -20,10 +20,29 @@
           </div>
         <% } %>
         <% if (user && author.id === user.id) { %>
-          <a href="/races/<%=race.id%>/update">
+          <a href="/races/id/<%=race.id%>/update">
             <button>Edit Your Race</button>
           </a>
         <% } %>
+        <section class="weather">
+          <% if (weather) { %>
+              <h3>Check out the Local Weather</h3>
+              <% weather.daily.time.forEach((date, i) => { %>
+                  <div>
+                    <p>
+                      <strong><%= date %></strong>: 
+                    </p>
+                    <p>
+                      <%= weather.daily.temperature_2m_min[i] %>°C - <%= weather.daily.temperature_2m_max[i] %>°C
+                      (<%= weather.daily.precipitation_hours[i] %>h precipitation)
+                    </p>
+                      
+                  </div>
+              <% }); %>
+          <% } else {%>
+            <p>Weather data could not be retrieved.</p>
+          <% }%>
+        </section>
       </section>
       <section class="race-right">
         <div class="race-infobox">
@@ -37,8 +56,20 @@
           </div>
           <%}%>
         </div>
+        
+        <div class="participants">
+          <% if (participants) {%>
+          <h3>Participants</h3>
+          <% participants.forEach (part => {%>
+            <a href="/users/<%=part.id%>">
+              <p><%= part.username %></p>
+            </a>
+            <% }) %>
+          <% } else {%>
+            <p>No one is participating yet. :(</p>
+          <% } %>
+        </div>
       </section>
-
     </main>
   </body>
 

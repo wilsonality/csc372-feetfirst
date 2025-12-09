@@ -29,9 +29,9 @@ async function addRace(title, distance, description, authorID, date) {
     return result.rows[0];
 }
 
-async function updateRace(id, title, distance, description, authorID) {
-    let queryText = "UPDATE races SET title = $1, distance = $2, description = $3, authorID = $4 WHERE id = $5 RETURNING *";
-    const values = [title, distance, description, authorID, id];
+async function updateRace(id, title, distance, description, authorID, date) {
+    let queryText = "UPDATE races SET title = $1, distance = $2, description = $3, authorID = $4, date = $5 WHERE id = $6 RETURNING *";
+    const values = [title, distance, description, authorID, date, id];
     const result = await pool.query(queryText, values);
     return result.rows[0];
 }
@@ -58,7 +58,6 @@ async function getAllRaces() {
 }
 
 async function getRaceById(id) {
-    console.log("getRaceById called with id:", id, "type:", typeof id);
     const queryText = "SELECT * FROM races where id= $1";
     const values = [id];
     const result = await pool.query(queryText, values);
@@ -108,11 +107,37 @@ async function getRacesForProfile(authorid){
 }
 
 async function addParticipant(raceID, userID){
-
+    const queryText = "INSERT INTO race_participant (raceid, userid) VALUES ($1, $2) RETURNING *";
+    const values = [raceID, userID];
+    const result = await pool.query(queryText, values);
+    return result.rows[0];
 }
 
 async function removeParticipant(raceID, userID){
+    const queryText = "DELETE FROM race_participant WHERE raceid = $1 AND userid = $2 RETURNING *";
+    const values = [raceID, userID];
+    const result = await pool.query(queryText, values);
+    return true;
+}
 
+async function checkParticipant(raceID, userID){
+    const queryText = "SELECT * FROM race_participant WHERE raceid = $1 AND userid = $2";
+    const values = [raceID, userID];
+    const result = await pool.query(queryText, values);
+    if (result.rows.length > 0){
+        return true;
+    }
+    return false;
+}
+
+async function getParticipants(raceid){
+    const queryText = "SELECT u.username, u.id FROM race_participant r join users u on r.userid = u.id WHERE raceid = $1";
+    const values = [raceid];
+    const result = await pool.query(queryText, values);
+    if (result.rowCount < 1){
+        return null;
+    }
+    return result.rows;
 }
 
 
@@ -127,5 +152,7 @@ module.exports = {
     getRacesForProfile,
     searchRaces,
     addParticipant,
-    removeParticipant
+    removeParticipant,
+    checkParticipant,
+    getParticipants
 };

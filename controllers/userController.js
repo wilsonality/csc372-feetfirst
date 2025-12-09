@@ -138,9 +138,13 @@ async function updateUser(req, res){
     const {bio, favDist, shoes } = req.body;
     const profileImage = req.file ? `/uploads/user_profile${userId}.${req.file.originalname.split('.').pop()}` : null;
 
+    if (userId != req.session.user.id){
+        res.render("error-page", {msg : err, title: "403: Hey, you can't be here."});
+    }
+
     try{
         const user = await model.updateUser(userId, bio, favDist, shoes, profileImage);
-        res.status(200).render("user/user-details", { user: user, title: `${user.username}'s profile`});
+        res.status(200).redirect(`/users/${userId}`);
     } catch (err){
         console.error(err);
         res.render("error-page", {msg : err, title: "500: Server Error."})
@@ -149,15 +153,19 @@ async function updateUser(req, res){
 
 async function updateForm(req, res){
     const userId = req.params.id;
-    try {
-        const user = await model.getUserById(userId);
-        if (!user) {
-            return res.render("error-page", {title: "404: User Not Found", msg: "User not found"});
+    if (req.session.user.id){
+        try {
+            const user = await model.getUserById(userId);
+            if (!user) {
+                return res.render("error-page", {title: "404: User Not Found", msg: "User not found"});
+            }
+            res.render("user/user-update", {user: user, title: "Update Profile"});
+        } catch (err) {
+            console.error(err);
+            res.render("error-page", {msg: err, title: "500: Server Error."});
         }
-        res.render("user/user-update", {user: user, title: "Update Profile"});
-    } catch (err) {
-        console.error(err);
-        res.render("error-page", {msg: err, title: "500: Server Error."});
+    } else {
+        res.render("error-page", {msg : err, title: "403: Hey, you can't be here."});
     }
 }
 

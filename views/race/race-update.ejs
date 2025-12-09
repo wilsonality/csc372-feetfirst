@@ -5,47 +5,49 @@
   <nav>
     <%- include('../partials/nav') %>
   </nav>
-  <main>
+  <main data-race-id="<%= race.id %>"> 
     <div class="page-header">
       <h2>Update Your Race</h2>
-      <p>Enter the details of your race below.</p>
+      <p>Change the details of your race below.</p>
     </div>
 
     <div class="form-box">
-      <form action="/races" method="post" enctype="multipart/form-data">
-        
-        <label for="title">Race Title</label>
-        <input type="text" name="title" id="title">
+      <form action="/races/id/<%=race.id%>" method="post" enctype="multipart/form-data">
+        <label for="title">Edit Race Title</label>
+        <input type="text" name="title" id="title" value="<%=race.title%>">
         <br>
         
-
-        <label for="raceimage">Upload a Race Photo</label>
+        <label for="raceimage">Update Race Photo</label>
         <input type="file" name="raceimage" id="raceimage" class="file-upload">
-        <br>
+        <img src="<%=race.raceimage%>" alt="Race Image Here" class="race-photo">
+        <br><br>
 
-        <label for="distance">Select a Race Distance:</label>
+        <label for="distance">Update Race Distance:</label>
         <select name="distance" id="distance">
             <option value="marathon">Marathon</option>
             <option value="half-marathon">Half-Marathon</option>
             <option value="10km">10km</option>
             <option value="5km">5km</option>
             <option value="10k">10km</option>
-            <option value="fun-run" selected>Fun-Run</option>
+            <option value="fun-run">Fun-Run</option>
             <option value="ultramarathon">Ultramarathon</option>
         </select><br><br>
 
-        <label for="description">Race Description</label>
-        <input type="text" name="description" id="description">
+        <label for="description">Update Race Description</label>
+        <input type="text" name="description" id="description" value="<%=race.description%>">
 
-        <label for="date">Pick a Date for the Race</label>
+        <label for="date">Change Date for the Race</label>
         <input type="datetime-local" id="date" name="date"
-        value="<%= new Date().toISOString().split('T')[0] %>"/>
+        value="<%=race.date %>"/>
 
 
-        <button type="submit" id="submit-btn">Register Account</button>
+        <button type="submit" id="submit-btn">Update Race</button>
       </form>
+    </div>
+    <div class="danger-zone">
+      <button id="delete-btn">Delete This Race</button>
     </div>
   </main>
 
-  <script src="/form.js"></script>
+  <script src="/race.js" defer></script>
 </body>

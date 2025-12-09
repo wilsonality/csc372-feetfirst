@@ -1,6 +1,5 @@
 <%- include('./partials/head') %>
 <%- include('./partials/fonts') %>
-  <script src="/script.js" defer></script>
   </head>
 <body>
     <%- include('./partials/nav') %>
@@ -11,8 +10,21 @@
     </div>
 
     <div class="race-box">
-      <!-- list races as race -->
-       <!-- race title, description, date -->
+      <ul class="races">
+        <% races.forEach (race => {%>
+          <li class="race-item">
+            <a href="/races/id/<%=race.id%>">
+              <div class="item-top">
+                <h3><%= race.title %></h3>
+                <p> <%= race.description %></p>
+              </div>
+              <% if (race.raceimage){%>
+                <img src="<%=race.raceimage%>" alt="race image" class="race-preview">
+              <% } %>
+            </a>
+          </li>
+        <% })%>
+      </ul>
     </div>
   </main>
 
