@@ -1,36 +1,28 @@
-<%- include('./partials/head') %>
+<%- include('../partials/head') %>
   <script src="/script.js" defer></script>
   </head>
 
   <body>
-    <%- include('./partials/nav') %>
-      <h1>
-        <%= title %>
-      </h1>
-      <div id="root">
-        <button id="new-prod-btn">Add New Product</button>
-        <%- include('./partials/new-prod-form') %>
-          <main class="items-container">
-            <% productsList.forEach((prod)=> { %>
-              <article class="item">
-                <div class="text">
-                  <h3>
-                    <%= prod.id %>: <%= prod.name %>
-                  </h3>
-                  <p>
-                    <%= prod.type %>
-                  </p>
-                  <p>Description: <%= prod.description %>
-                  </p>
-                  <form style="display: inline" action="/products/<%= prod.id %>" method="get">
-                    <button class="inner-button">View</button>
-                  </form>
-                  <button class="delete-prod" id="<%= prod.id %>">Delete Product</button>
-                </div>
-              </article>
-              <% }) %>
-          </main>
-      </div>
+    <%- include('../partials/nav') %>
+    <main class="races-list">
+      <h1>View All Races</h1>
+
+      <ul class="races">
+        <% races.forEach (race => {%>
+          <li class="race-item">
+            <a href="/races/id/<%=race.id%>">
+              <div class="item-top">
+                <h3><%= race.title %></h3>
+                <p> <%= race.description %></p>
+              </div>
+              <% if (race.raceimage){%>
+                <img src="<%=race.raceimage%>" alt="race image" class="race-preview">
+              <% } %>
+            </a>
+          </li>
+        <% })%>
+      </ul>
+    </main>
   </body>
 
   </html>

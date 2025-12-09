@@ -1,5 +1,6 @@
 "use strict";
 const model = require('../models/userModel');
+const raceModel = require('../models/raceModel');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 const path = require('path');
@@ -58,23 +59,30 @@ async function createUser(req, res){
         const saltRounds = 8;
         const hashedPass = await bcrypt.hash(password, saltRounds);
         
-        // Create user first
+        // create user to ref later
         const newUser = await model.addUser(username, hashedPass);
         
-        // If image uploaded, rename and update user with image path
+        // if img uploaded, rename and update user with path
         if (req.file) {
             const ext = req.file.originalname.split('.').pop();
             const oldPath = req.file.path;
             const newFilename = `user_profile${newUser.id}.${ext}`;
             const newPath = path.join('public/uploads', newFilename);
             
-            // Rename file from temp to actual user ID
+            // rename file from temp to actual user id
             fs.renameSync(oldPath, newPath);
             
             const profileImage = `/uploads/${newFilename}`;
             await model.updateProfileImage(newUser.id, profileImage);
             newUser.profileImage = profileImage;
         }
+        
+        // create session for new user
+        req.session.user = {
+            id: newUser.id,
+            username: newUser.username,
+            role: newUser.role || 'user'
+        };
         
         res.status(201).render("user/user-details", {
             user: newUser,
@@ -98,12 +106,12 @@ async function fetchUserByID(req, res){
     const id = req.params.id;
     if (id) {
         try {
-            const user = await model.getUserById(id);
-            if (!user) {
+            const profileUser = await model.getUserById(id);
+            if (!profileUser) {
                 return res.render("error-page", {title: "404: User Could Not Be Found.", msg: `This user with ID ${id} could not be found.`});
             }
-            res.render("user/user-details", { user: user, title: `View ${user.username}'s Profile` });
-            // res.json(product);
+            const races = await raceModel.getRacesForProfile(id);
+            res.render("user/user-details", { profileUser: profileUser, title: `View ${profileUser.username}'s Profile`, races: races});
         } catch (err) {
             console.error(err);
             res.render("error-page", {title: "500: Server Error.", msg: err});

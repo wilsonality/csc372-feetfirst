@@ -1,23 +1,44 @@
 <%- include('../partials/head') %>
-    <link rel="stylesheet" href="/styles.css">
+<%- include('../partials/fonts') %>
 </head>
 <body>
     <%- include ('../partials/nav') %>
-    <main>
-        <h2>View Profile of <%= user.username %></h2>
-        <!-- list user details -->
+    <main class="user-details">
          <section class="profile">
-            <% if (user.profileimage) { %>
-                <img src="<%=user.profileimage%>" class="profile-photo" alt="<%=user.username%>'s picture">
+            <h2>View Profile of <%= profileUser.username %></h2>
+            <% if (profileUser.profileimage) { %>
+                <img src="<%=profileUser.profileimage%>" class="profile-photo" alt="<%=profileUser.username%>'s picture">
             <% } %>
-            <p><%=user.bio %></p>
-            <% if (user.favdist) { %>
-                <p>Favorite Distance: <%=user.favdist%></p>
+            <p><%=profileUser.bio %></p>
+            <% if (profileUser.favdist) { %>
+                <p>Favorite Distance: <%=profileUser.favdist%></p>
             <% } %>
+            <% if (user && profileUser.id === user.id){ %>
+            <a href="/users/<%=profileUser.id%>/update">
+                <button>Edit Profile</button>
+            </a>
+            <% }%>
+            
          </section>
-         <a href="<%=user.id%>/update">
-            <button>Edit Profile</button>
-         </a>
+         
+         <section class="race-preview">
+            <h3>See <%= profileUser.username%>'s Races</h3>
+            <ul class="races">
+                <% races.forEach (race => {%>
+                <li class="race-item">
+                    <a href="/races/id/<%=race.id%>">
+                    <div class="item-top">
+                        <h3><%= race.title %></h3>
+                        <p> <%= race.description %></p>
+                    </div>
+                    <% if (race.raceimage){%>
+                        <img src="<%=race.raceimage%>" alt="race image" class="race-preview">
+                    <% } %>
+                    </a>
+                </li>
+                <% })%>
+            </ul>
+         </section>
     </main>
 </body>
 </html>

@@ -1,20 +1,50 @@
 "use strict";
+const { title } = require('process');
 const model = require('../models/raceModel');
+const userModel = require('../models/userModel');
 
 async function createRace(req, res) {
-    const { title, distance, description } = req.body;
+    if (!req.session || !req.session.user) {
+        return res.status(401).redirect("/login");
+    }
+    
+    const { title, distance, description, date } = req.body;
     const authorID = req.session.user.id;
     if (title && distance && description) {
         try {
-            const newProduct = await model.addRace(title, distance, description, authorID);
-            // no need to render here since we are redirecting in the frontend
-            res.status(201).json(newProduct);
+            const newRace = await model.addRace(title, distance, description, authorID, date);
+            // handle race image if uploaded
+            if (req.file) {
+                const fs = require('fs');
+                const path = require('path');
+                const ext = req.file.originalname.split('.').pop();
+                const oldPath = req.file.path;
+                const newFilename = `race_image${newRace.id}.${ext}`;
+                const newPath = path.join('public/uploads', newFilename);
+                
+                // Rename file from temp to actual race ID
+                fs.renameSync(oldPath, newPath);
+                
+                const raceimage = `/uploads/${newFilename}`;
+                await model.updateRaceImage(newRace.id, raceimage);
+            }
+            
+            res.redirect(`/races/id/${newRace.id}`);
         } catch (err) {
             console.error(err);
             res.status(500).send("Server error");
         }
     } else {
         res.status(400).send("Missing required race fields!");
+    }
+}
+
+async function createForm(req, res) {
+    if (req.session.user){
+        res.render("race/race-create", { user: req.session.user , title: "Post a Race"});
+    }
+    else {
+        res.redirect("/login");
     }
 }
 
@@ -43,17 +73,17 @@ async function updateForm(req, res) {
     const id = req.params.id;
     if (id) {
         try {
-            const product = await model.getProductById(id);
-            if (!product) {
-                return res.status(404).send("Race not found.");
+            const race = await model.getRaceById(id);
+            if (!race) {
+                return res.status(404).send("Race not found. :/");
             }
-            res.render("race-update", { /** TODO add race details to response */ });
+            res.render("race-update", {title: "Update Race Details", race: race });
         } catch (err) {
             console.error(err);
             res.status(500).send("Server error");
         }
     } else {
-        res.status(400).send("Missing required id param!");
+        res.status(400).send("Missing required id param.");
     }
 }
 
@@ -61,12 +91,11 @@ async function deleteRace(req, res) {
     const id = req.params.id;
     if (id) {
         try {
-            const deletedCount = await model.deleteProduct(id);
-            if (deletedCount > 0) {
-                //no need to render here since we are redirecting in the frontend
-                res.send(`Product with id ${id} deleted successfully.`);
+            const deleted = await model.deleteRace(id);
+            if (deleted) {
+                res.redirect("/races");
             } else {
-                res.status(404).send("Product not found.");
+                res.status(404).send("Race could not be deleted.");
             }
         } catch (err) {
             console.error(err);
@@ -80,8 +109,7 @@ async function deleteRace(req, res) {
 async function fetchAllRaces(req, res) {
     try {
         const races = await model.getAllRaces();
-        // Render the products list view instead of sending JSONks
-        res.render();
+        res.render("race/races-list", { races: races, title: "All Races" });
     } catch (err) {
         console.error(err);
         res.status(500).send("Server error");
@@ -89,17 +117,19 @@ async function fetchAllRaces(req, res) {
 }
 
 async function fetchRaceById(req, res) {
+    console.log("fetchRaceById called with id:", req.params.id);
     const id = req.params.id;
     if (id) {
         try {
             const race = await model.getRaceById(id);
+            console.log("Race image path:", race.raceimage);
+            const author = await userModel.getUserById(race.authorid);
             if (!race) {
                 return res.render("error-page", {title: "404: Race Could Not Be Found.", msg: "This race could not be found."});
             }
-            res.render("race-details", { race: race, title: `Race #${race.title}` });
-            // res.json(product);
+            res.render("race/race-details", { race: race, title: `Race #${race.title}`, author: author });
         } catch (err) {
-            console.error(err);
+            console.error("Error in fetchRaceById:", err);
             res.render("error-page", {title: "500: Server Error.", msg: err});
         }
     } else {
@@ -129,6 +159,7 @@ module.exports = {
     fetchAllRaces,
     fetchRaceById,
     createRace,
+    createForm,
     updateRace,
     updateForm,
     deleteRace,

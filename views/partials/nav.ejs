@@ -1,12 +1,14 @@
 <nav>
   <ul>
     <li><a href="/home">Home</a></li>
-    <% if (user) { %>
+    <% if (user) { %> 
       <li><a href="/users/<%=user.id%>">View Profile</a></li>
       <li><a href="/users/logout">Log Out</a></li>
+      <li><a href="/races/create">Post a Race</a></li>
     <% } else { %>
       <li><a href="/login">Log In</a></li>
       <li><a href="/users/register">Register</a></li>
     <% } %>
+    <li><a href="/races">View All Races</a></li>
   </ul>
 </nav>

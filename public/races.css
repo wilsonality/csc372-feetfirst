@@ -1,0 +1,54 @@
+:root{
+  --clr-lipstick: #C55A83;
+  --clr-denim: #283B58;
+  --clr-pink-paper: #F4E1E8;
+  --clr-blush-paper: #EDC5C0;
+  --clr-spruce-leaf: #1E5431;
+  --clr-cherry: #A61C3C;
+  --clr-aqua: #91CAC5;
+  --clr-dark-ink: #131C2A;
+  --clr-robin-egg: #A5CFE3;
+
+}
+
+main.race-details{
+    display: flex;
+
+    section{
+        padding: 2em;
+    }
+}
+
+section.race-left{
+    width: 45%;
+    padding-top: 10em;
+    h1{
+        font-size: 32pt;
+    }
+}
+
+section.race-right{
+    background-color: var(--clr-pink-paper);
+    border: var(--clr-denim) 3px solid;
+    width: 55%;
+}
+
+.author-preview{
+    display: flex;
+    gap: 2em;
+    align-items: center;
+}
+
+.author-card{
+    display: flex;
+    flex-direction: column;
+    border: var(--clr-dark-ink) 2px solid;
+    border-radius: 2em;
+    padding: 2em;
+    background-color: var(--clr-robin-egg);
+}
+
+.race-photo{
+    max-height: 400px;
+    border-radius: 1em;
+}

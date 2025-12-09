@@ -1,28 +1,45 @@
-<%- include('./partials/head') %>
+<%- include('../partials/head') %>
   <script src="/script.js" defer></script>
   </head>
 
   <body>
-    <%- include('./partials/nav') %>
-      <button id="new-prod-btn">Add New Product</button>
-      <%- include('./partials/new-prod-form') %>
-        <h1> Product #<%=prod.id %>
-        </h1>
-        <div id="root">
-          <div class="card-holder">
-            <h3>
-              <%= prod.name %>
-            </h3>
-            <p>Type: <%=prod.type %>
-            </p>
-            <p>Price: <%=prod.price %>
-            </p>
-            <p>Description: <%=prod.description %>
-            </p>
-            <button class="delete-prod" id="<%= prod.id %>">Delete Product</button>
+    <%- include('../partials/nav') %>
+    <main class="race-details">
+      <section class="race-left">
+        <h1><%= race.title %></h1>
+        <button class="center">RSVP</button>
+        <% if (author && author.profileimage) { %>
+          <div class="author-preview">
+            <p class="center bold">Meet the Host</p>
+            <div class="author-card center">
+              <a href="/users/<%=author.id%>">
+                <img src="<%=author.profileimage%>" class="profile-photo" alt="<%=author.username%>'s picture">
+                <h3><%=author.username%></h3>
+              </a>
+            </div>
           </div>
-          <h2><a href="/products">Products List</a></h2>
+        <% } %>
+        <% if (user && author.id === user.id) { %>
+          <a href="/races/<%=race.id%>/update">
+            <button>Edit Your Race</button>
+          </a>
+        <% } %>
+      </section>
+      <section class="race-right">
+        <div class="race-infobox">
+          <h2 class="center underline">RACE INFO</h2>
+          <p>Description: <%=race.description%></p>
+          <p>WHEN:  <%=race.date%></p>
+          <h3>DISTANCE: <%=race.distance%></h3>
+          <% if (race.raceimage){%>
+          <div class="img-box center">
+            <img src="<%=race.raceimage%>" class="race-photo" alt="race image goes here.">
+          </div>
+          <%}%>
         </div>
+      </section>
+
+    </main>
   </body>
 
   </html>

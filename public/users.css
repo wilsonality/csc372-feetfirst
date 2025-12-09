@@ -1,0 +1,33 @@
+/* colors */
+
+:root{
+  --clr-lipstick: #C55A83;
+  --clr-denim: #283B58;
+  --clr-pink-paper: #F4E1E8;
+  --clr-blush-paper: #EDC5C0;
+  --clr-spruce-leaf: #1E5431;
+  --clr-cherry: #A61C3C;
+  --clr-aqua: #91CAC5;
+  --clr-dark-ink: #131C2A;
+  --clr-robin-egg: #b1cfdc;
+
+}
+
+/* profile stuff */
+
+main.user-details{
+    display: flex;
+    gap: 2em;
+}
+
+section.race-preview{
+    background-color: var(--clr-robin-egg);
+    border-radius: 1em;
+    border-color: var(--clr-denim) 2px solid;
+    padding: 2em;
+    margin: 3em 0em;
+
+    li{
+        border: 2px solid var(--clr-dark-ink);
+    }
+}

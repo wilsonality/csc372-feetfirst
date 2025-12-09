@@ -1,0 +1,52 @@
+<% var title = "Post a Race"; %>
+<%- include('../partials/head') %>
+<%- include('../partials/fonts') %>
+  </head>
+<body>
+  <nav>
+    <%- include('../partials/nav') %>
+  </nav>
+  <main>
+    <div class="page-header">
+      <h2>Post a Race to Feet First</h2>
+      <p>Enter the details of your race below.</p>
+    </div>
+
+    <div class="form-box">
+      <form action="/races" method="post" enctype="multipart/form-data">
+        
+        <label for="title">Race Title</label>
+        <input type="text" name="title" id="title">
+        <br>
+        
+
+        <label for="raceimage">Upload a Race Photo</label>
+        <input type="file" name="raceimage" id="raceimage" class="file-upload">
+        <br>
+
+        <label for="distance">Select a Race Distance:</label>
+        <select name="distance" id="distance">
+            <option value="marathon">Marathon</option>
+            <option value="half-marathon">Half-Marathon</option>
+            <option value="10km">10km</option>
+            <option value="5km">5km</option>
+            <option value="10k">10km</option>
+            <option value="fun-run" selected>Fun-Run</option>
+            <option value="ultramarathon">Ultramarathon</option>
+        </select><br><br>
+
+        <label for="description">Race Description</label>
+        <input type="text" name="description" id="description">
+
+        <label for="date">Pick a Date for the Race</label>
+        <input type="datetime-local" id="date" name="date"
+        value="<%= new Date().toISOString().split('T')[0] %>"/>
+
+
+        <button type="submit" id="submit-btn">Register Account</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="/form.js"></script>
+</body>
